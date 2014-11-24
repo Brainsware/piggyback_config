@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.date        = '2014-11-24'
   s.authors     = ['Alexander Pánek']
   s.email       = 'a.panek@brainsware.org'
-  s.files       = ['lib/piggyback/configuration.rb']
+  s.files       = ['lib/piggyback_config.rb', 'lib/piggyback_config/configuration.rb']
   s.homepage    = 'https://github.com/Brainsware/piggyback_config'
   s.license     = 'MIT'
   s.summary     = 'Build up application configuration from multiple sources'

@@ -12,4 +12,6 @@ Gem::Specification.new do |s|
 steps. It is suitable for applications coming with a fixed common configuration
 with defaults, user configuration and command line arguments that can override
 those configurations.'
+
+  s.add_runtime_dependency 'deep_merge', '= 1.0.1'
 end

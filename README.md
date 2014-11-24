@@ -39,8 +39,8 @@ require 'piggyback_config'
 require 'yaml'
 require 'pp'
 
-# Feed Piggyback::Config with the most basic defaults
-config = Piggyback::Config.new({
+# Feed Piggyback::Configuration with the most basic defaults
+config = Piggyback::Configuration.new({
   config:    './defaults.yml',
   log_level: :warn,
 })

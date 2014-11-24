@@ -1,11 +1,11 @@
 require 'deep_merge'
 
 module Piggyback
-
   # Build up configuration from multiple sources
-  #
   class Configuration
     def initialize (hash = {})
+      hash ||= {}
+
       @versions = [sanitize_keys(hash)]
     end
 
@@ -17,7 +17,8 @@ module Piggyback
     # - push new version
     # - sanitize keys
     # - perform a deep merge
-    def merge!(hash = {})
+    def merge!(hash)
+      hash ||= {}
       @versions.push current().dup.deep_merge!(sanitize_keys(hash))
 
       current()

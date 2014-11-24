@@ -17,19 +17,81 @@ an internal stack. Calling `#current` gives the current version.
 
 ## Example
 
+```yaml
+---
+# defaults.yml, shipped with the application's gem
+config:    /etc/project/config.yml
+port:      3333
+ssl:       on
+log-level: warn
+```
+
+```yaml
+---
+# /etc/project/config.yml
+# The config the application is deployed with, changing some of the defaults
+port: 3456
+log-level: debug
+```
+
 ```ruby
 require 'piggyback_config'
 require 'yaml'
+require 'pp'
 
-config = Piggyback::Config.new
+# Feed Piggyback::Config with the most basic defaults
+config = Piggyback::Config.new({
+  config:    './defaults.yml',
+  log_level: :warn,
+})
 
-config.merge!(YAML.load_file('/etc/config.yml'))
-config.merge!(YAML.load_file('~/.user_config.yml'))
+pp config.current()
+#=> { :config=>"defaults.yml", :log_level=>:warn }
 
-# You can also use #current() to get the last config
+# Add some more defaults from a YAML file
+defaults_yaml = File.expand_path(File.join(File.dirname(__FILE__), '../etc/defaults.yml'))
+defaults      = YAML.load_file(defaults_yaml)
+
+if defaults
+  config.merge!(defaults)
+
+  pp config.current()
+  #=>{ :config    => "/etc/project/config.yml",
+  #    :log_level => "warn",
+  #    :port      => 3333,
+  #    :ssl       => "on"}
+
+end
+
+# Use the default config path to load and add the user config
+config_yaml = config.current()[:defaults][:config]
+
+if File.exists?(config_yaml)
+  config.merge!(YAML.load_file(config_yaml))
+
+  pp config.current()
+  #=>{ :config   => "/etc/project/config.yml",
+  #    :log_level=> "debug",
+  #    :port     => 3456,
+  #    :ssl      => "on"}
+
+end
+
+# Use all of the above config to configure the OptParserOfYourChoice
 arguments = OptParserOfYourChoice.parse(ARGV, config.current()[:arguments])
 
+#=> { "port" => 6543, "log-level" => "info" }
+
+# Finally: also merge in the options gathered from the CLI
 config.merge!(arguments)
+
+pp config.current()
+#=> { :config                => "/etc/project/config.yml",
+#     :log_level             => "info",
+#     :port                  => 6543,
+#     :ssl                   => "on",
+#     :and_some_other_option => true}
+
 ```
 
 ## License

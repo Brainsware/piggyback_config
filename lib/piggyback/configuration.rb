@@ -37,7 +37,7 @@ module Piggyback
       hash.reduce({}) do |seed, (key, value)|
         key, value = split(key.to_s.gsub('-', '_'), value)
         
-        seed[key] = value
+        seed[key.to_sym] = value
         seed
       end
     end

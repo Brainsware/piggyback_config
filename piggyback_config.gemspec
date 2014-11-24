@@ -2,11 +2,14 @@ Gem::Specification.new do |s|
   s.name        = 'piggyback_config'
   s.version     = '0.1'
   s.date        = '2014-11-24'
-  s.summary     = 'Build up application configuration from multiple sources'
-  s.description = ''
   s.authors     = ['Alexander Pánek']
   s.email       = 'a.panek@brainsware.org'
   s.files       = ['lib/piggyback/configuration.rb']
   s.homepage    = 'https://github.com/Brainsware/piggyback_config'
   s.license     = 'MIT'
+  s.summary     = 'Build up application configuration from multiple sources'
+  s.description = 'A simple module allowing to build up application configuration in multiple
+steps. It is suitable for applications coming with a fixed common configuration
+with defaults, user configuration and command line arguments that can override
+those configurations.'
 end
